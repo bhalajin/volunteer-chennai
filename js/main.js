@@ -65,27 +65,68 @@ var initMap = function () {
       center: centerLoc
     });
 
-    var pinColor = "FE7569"; // should define multiple pin colors
+    var data = [
+      {
+        type: 'RN',
+        data: [
+          {
+            contact: '+919176281689',
+            area: 'MG Nagar, Aadhanoor, Urapakkam ',
+            people: '4',
+            other: ''
+          }
+        ]
+      },
+      {
+        type: 'AN',
+        data: [
+          {
+            contact: '9003163805',
+            name: 'Rajamani',
+            area: 'Ashok nagar - Raghavan colony',
+            other: '',
+            aid: 'Food, Water'
+          }
+        ]
+      },
+      {
+        type: 'AO',
+        data: [
+          {
+            contact: '9840042152',
+            area: 'Meenambakkam',
+            people: '500',
+            other: ''
+          }
+        ]
+      }
+    ];
+    for (var i = 0;i < data.length;i++) {
+      var pinColor;
+      if (data[i].type === 'RN') {
+        pinColor = "FE7569";
+      } else if (data[i].type === 'AN') {
+        pinColor = "FE0069";
+      } else if (data[i].type === 'AO') {
+        pinColor = "007569";
+      }
+      var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+        new google.maps.Size(21, 34),
+        new google.maps.Point(0, 0),
+        new google.maps.Point(10, 34));
 
-    var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
-      new google.maps.Size(21, 34),
-      new google.maps.Point(0, 0),
-      new google.maps.Point(10, 34));
-
-    var address = ['MG Nagar, Aadhanoor, Urapakkam', 'kelambakkam', 'Alwarpet', 'Ashok Nagar,Chennai'];
-    // this would be changed to a json object with more information available in this array
-
-    for (var i = 0;i < address.length;i++){
-      geocoder.geocode( { 'address': address[i]}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          var marker = new google.maps.Marker({
-            position: {lat: results[0].geometry.location.lat(), lng:results[0].geometry.location.lng()},
-            map: map,
-            icon: pinImage,
-            title: address[i]
-          });
-        }
-      });
+      for (var i = 0;i < data[i].data.length;i++) {
+        geocoder.geocode( { 'address': data[i].data.area}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            var marker = new google.maps.Marker({
+              position: {lat: results[0].geometry.location.lat(), lng:results[0].geometry.location.lng()},
+              map: map,
+              icon: pinImage,
+              title: 'hello world'
+            });
+          }
+        });
+      }
     }
   });
 };
