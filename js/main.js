@@ -50,17 +50,21 @@ var zoomlevel;
 var loadPage = function () {
   $('#curLoc').keypress(function(e) {
     if (e.keyCode == 13) {
+      i = 0;
+      iter = 0;
       initMap();
     }
   });
 };
+
+var map;
 
 var initMap = function () {
 
   geocoder = new google.maps.Geocoder();
 
   findCenter( function (centerLoc) {
-    var map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
       zoom: zoomlevel,
       center: centerLoc
     });
@@ -101,34 +105,51 @@ var initMap = function () {
         ]
       }
     ];
-    for (var i = 0;i < data.length;i++) {
-      var pinColor;
-      if (data[i].type === 'RN') {
-        pinColor = "FE7569";
-      } else if (data[i].type === 'AN') {
-        pinColor = "FE0069";
-      } else if (data[i].type === 'AO') {
-        pinColor = "007569";
-      }
-      var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
-        new google.maps.Size(21, 34),
-        new google.maps.Point(0, 0),
-        new google.maps.Point(10, 34));
+    plotOption(data);
+  });
+};
 
-      for (var i = 0;i < data[i].data.length;i++) {
-        geocoder.geocode( { 'address': data[i].data.area}, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            var marker = new google.maps.Marker({
-              position: {lat: results[0].geometry.location.lat(), lng:results[0].geometry.location.lng()},
-              map: map,
-              icon: pinImage,
-              title: 'hello world'
-            });
-          }
+var i = 0;
+var plotOption = function (data) {
+  if (i < data.length) {
+    var pinColor;
+    if (data[i].type === 'RN') {
+      pinColor = "FE7569";
+    } else if (data[i].type === 'AN') {
+      pinColor = "FE0069";
+    } else if (data[i].type === 'AO') {
+      pinColor = "007569";
+    }
+    var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+      new google.maps.Size(21, 34),
+      new google.maps.Point(0, 0),
+      new google.maps.Point(10, 34));
+    plotLoc(data, i, pinImage, function (){
+      i++;
+      plotOption(data);
+    });
+  }
+};
+
+var iter = 0;
+var plotLoc = function (data, i, pinImage, callback) {
+  if (iter < data[i].data.length) {
+    geocoder.geocode( { 'address': data[i].data[iter].area}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        var marker = new google.maps.Marker({
+          position: {lat: results[0].geometry.location.lat(), lng:results[0].geometry.location.lng()},
+          map: map,
+          icon: pinImage,
+          title: 'hello world'
         });
       }
-    }
-  });
+      iter ++;
+      plotLoc(data, i, pinImage, callback);
+    });
+  } else {
+    iter = 0;
+    callback();
+  }
 };
 
 var findCenter = function (callback) {
