@@ -1,12 +1,38 @@
 <!DOCTYPE html>
 <html>
   <head>
-    
-    
+    <title>Volunteer Chennai</title>
+
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
   </head>
-  
+
   <body>
-    
+    <!--Header section-->
+    <div id="heading">
+      <h3>Chennai Rains - Volunteer support</h3>
+      <div>
+         <input type="checkbox" id="Rescue" />
+         <span>Food needed</span>
+      </div>
+      <div>
+         <input type="checkbox" id="Rescue" />
+         <span>Food offering</span>
+      </div>
+      <div>
+         <input type="checkbox" id="Rescue" />
+         <span>Rescue needed</span>
+      </div>
+      <div class="curLocDiv">
+        <input type="text" id="curLoc" value="Chennai"/>
+      </div>
+    </div>
+
+    <!--Map display-->
+    <div id="map"></div>
+
+
+    <!--Scripts-->
     <script type="application/javascript" src="js/main.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfs82UD-eY5W9l5_pOLyYa8P3Pe4L62GU&signed_in=true&callback=initMap"></script>
   </body>
 </html>

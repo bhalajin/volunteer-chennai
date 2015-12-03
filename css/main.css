@@ -1,0 +1,39 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: monospace;
+}
+
+#heading {
+  height: 10%;
+}
+
+#heading h3 {
+  margin: 2px;
+  text-align: center;
+}
+
+#heading div {
+  margin: 2px 2px;
+  float: left;
+}
+
+#map {
+  height: 100%;
+}
+
+.curLocDiv {
+  width: 30%;
+  float: right;
+  padding-right: 10%;
+}
+
+#curLoc {
+  border: 0px;
+  border-bottom: 1px solid black;
+  text-align: center;
+  width: 100%;
+  color: grey;
+  font-family: monospace;
+}
