@@ -45,13 +45,23 @@
 
 var geocoder;
 
+var zoomlevel;
+
+var loadPage = function () {
+  $('#curLoc').keypress(function(e) {
+    if (e.keyCode == 13) {
+      initMap();
+    }
+  });
+};
+
 var initMap = function () {
 
   geocoder = new google.maps.Geocoder();
 
   findCenter( function (centerLoc) {
     var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 9,
+      zoom: zoomlevel,
       center: centerLoc
     });
 
@@ -82,6 +92,7 @@ var initMap = function () {
 
 var findCenter = function (callback) {
   var center = $('#curLoc').val() + ', chennai';
+  zoomlevel = ($('#curLoc').val().toLowerCase() === 'chennai')?10:13;
   geocoder.geocode( { 'address': center}, function (results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       callback({'lat': results[0].geometry.location.lat(), 'lng': results[0].geometry.location.lng()});
